@@ -5,7 +5,7 @@ import streamlit as st
 st.set_page_config(page_title='Distance Tool')
 st.header('Counties Within Mile Radius')
 st.subheader('Choose a city:')
-url = "https://raw.githubusercontent.com/pedroj92224/krekk/master/Distances_Offline.csv"
+url = "https://github.com/pedroj92224/krekk/blob/72f60bfb114be683f2ad0ec14f96a1690de6ec46/Distances_Offline.csv"
 df = pd.read_csv(url, on_bad_lines='skip')
 dfa = df.loc[ :, df.columns != 'County']
 
