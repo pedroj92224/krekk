@@ -7,7 +7,7 @@ st.header('Counties Within Mile Radius')
 st.subheader('Choose a city:')
 url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distances_Offline.csv'
 types = defaultdict(int, County="str")
-df = pd.read_csv(url, dtypes=types, keep_default_na=False, on_bad_lines='skip')
+df = pd.read_csv(url, dtype=types, keep_default_na=False, on_bad_lines='skip')
 dfa = df.loc[ :, df.columns != 'County']
 
 columnz = st.selectbox("Choose a city", dfa.columns)
