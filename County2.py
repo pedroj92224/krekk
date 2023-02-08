@@ -7,7 +7,8 @@ st.header('Counties Within Mile Radius')
 st.subheader('Choose a city:')
 
 url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distances_Offline.csv'
-col_dtypes = {'County': str, 'columnz': np.int32}
+col_dtypes = {'County': str}
+col_dtypes.update({col: np.int32 for col in df.columns if col != 'County'})
 
 @st.cache
 def load_data(url, col_dtypes):
