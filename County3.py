@@ -17,6 +17,7 @@ for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
     if city_columns is None:
         city_columns = [col for col in chunk.columns if col != 'County']
         city_names = [col.replace("_", " ") for col in city_columns]
+        break
 
 columnz = st.selectbox("Choose a city", city_names)
 numby = st.slider('Select a mile radius', 0, 500)
