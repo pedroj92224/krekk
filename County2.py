@@ -7,14 +7,12 @@ st.header('Counties Within Mile Radius')
 st.subheader('Choose a city:')
 
 url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distances_Offline.csv'
-col_dtypes = {col: np.int32 for col in range(1, 5270)}
-col_dtypes.update({'County': str})
+col_dtypes = {'County': str}
+col_dtypes.update({col: np.int32 for col in range(1, 5270)})
 
-@st.cache
-def load_data(url, col_dtypes):
-    return pd.read_csv(url, usecols=col_dtypes.keys(), dtype=col_dtypes)
+df_chunks = pd.read_csv(url, chunksize=1000, dtype=col_dtypes, converters={col: lambda x: np.int32(x) for col in range(1, 5270)})
+df = pd.concat(df_chunks)
 
-df = load_data(url, col_dtypes)
 
 columnz = st.selectbox("Choose a city", df.columns.drop('County'))
 
