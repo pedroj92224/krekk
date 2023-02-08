@@ -20,7 +20,12 @@ numby = st.slider(
     'Select a mile radius',
     0, 500)
 
-df = df.query(f"{columnz} <= {numby}")
-df = df.sort_values(by=[columnz])
-df = df.drop_duplicates(subset=['County'], keep='first')
-df 
+df2 = pd.DataFrame(df, columns = ['County', columnz])
+if df2.get(columnz) is not None:
+    df3 = df2.loc[df2[columnz] <= numby]
+    df4 = df3.sort_values(by=[columnz])
+    df5 = df4.drop_duplicates(subset=['County'], keep='first')
+    df6 = pd.DataFrame(df5, columns = ['County', columnz])
+    df6
+else:
+    st.error('The selected city does not exist in the DataFrame')
