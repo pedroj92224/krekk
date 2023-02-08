@@ -13,22 +13,17 @@ col_dtypes.update({str(col): np.int32 for col in range(1, 5270)})
 
 city_columns = None
 
-def get_df(numby):
-    df_final = pd.DataFrame(columns=['County', columnz])
-    for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
-        if city_columns is None:
-            city_columns = [col for col in chunk.columns if col != 'County']
-            city_names = [col.replace("_", " ") for col in city_columns]
-            columnz = st.selectbox("Choose a city", city_names)
+columnz = st.selectbox("Choose a city", city_names)
+numby = st.number_input('Select a mile radius', min_value=0, max_value=500)
 
-        df = chunk.loc[chunk[columnz] <= numby]
-        df2 = df.sort_values(by=[columnz])
-        df3 = df2.drop_duplicates(subset=['County'], keep='first')
-        df4 = df3[['County', columnz]]
-        df_final = pd.concat([df_final, df4], ignore_index=True)
-        
-    return df_final
+for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
+    if city_columns is None:
+        city_columns = [col for col in chunk.columns if col != 'County']
+        city_names = [col.replace("_", " ") for col in city_columns]
 
-numby = st.number_input('Select a mile radius', value=0, step=1, format='%d')
-df4 = st.cache(get_df)(numby)
+    df = chunk.loc[chunk[columnz] <= numby]
+    df2 = df.sort_values(by=[columnz])
+    df3 = df2.drop_duplicates(subset=['County'], keep='first')
+    df4 = df3[['County', columnz]]
+
 st.write(df4)
