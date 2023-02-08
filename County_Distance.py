@@ -6,9 +6,12 @@ st.set_page_config(page_title='Distance Tool')
 st.header('Counties Within Mile Radius')
 st.subheader('Choose a city:')
 url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distances_Offline.csv'
-dtypes = {df.columns[0]: str, df.columns[1:]: int}
+dtypes = {0: str, 1: int}
 df = pd.read_csv(url, nrows=5)
-df = pd.read_csv(url, dtype=dtypes, on_bad_lines='skip')
+column_names = df.columns
+for i in range(1, len(column_names)):
+    dtypes[i] = int
+df = pd.read_csv(url, dtype=dict((column_names[i], dtypes[i]) for i in range(len(column_names))))
 dfa = df.loc[ :, df.columns != 'County']
 
 columnz = st.selectbox("Choose a city", dfa.columns)
