@@ -1,12 +1,13 @@
 import pandas as pd
 import streamlit as st
-
+from collections import defaultdict
 
 st.set_page_config(page_title='Distance Tool')
 st.header('Counties Within Mile Radius')
 st.subheader('Choose a city:')
 url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distances_Offline.csv'
-df = pd.read_csv(url, on_bad_lines='skip')
+types = defaultdict(int, County="str")
+df = pd.read_csv(url, dtypes=types, keep_default_na=False, on_bad_lines='skip')
 dfa = df.loc[ :, df.columns != 'County']
 
 columnz = st.selectbox("Choose a city", dfa.columns)
