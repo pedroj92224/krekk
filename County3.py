@@ -11,15 +11,15 @@ url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distan
 col_dtypes = {'County': str}
 col_dtypes.update({str(col): np.int32 for col in range(1, 5270)})
 
-df = pd.read_csv(url, dtype=col_dtypes)
+df = pd.read_csv(url, usecols=['County'] + city_columns, dtype=col_dtypes)
 city_columns = [col for col in df.columns if col != 'County']
 city_names = [col.replace("_", " ") for col in city_columns]
 columnz = st.selectbox("Choose a city", city_names)
-columnz = st.selectbox("Choose a city", df.columns.drop('County'))
+column_index = city_columns.index(columnz.replace(" ", "_"))
 numby = st.slider('Select a mile radius', 0, 500)
 
-df = df.loc[df[columnz] <= numby]
-df = df.sort_values(by=[columnz])
+df = df.loc[df[city_columns[column_index]] <= numby]
+df = df.sort_values(by=[city_columns[column_index]])
 df = df.drop_duplicates(subset=['County'], keep='first')
-df = df[['County', columnz]]
-df
+df = df[['County', city_columns[column_index]]]
+st.dataframe(df)
