@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 
-
 st.set_page_config(page_title='Distance Tool')
 st.header('Counties Within Mile Radius')
 st.subheader('Choose a city:')
@@ -10,6 +9,7 @@ url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distan
 col_dtypes = {col: str for col in range(0, 1)}
 col_dtypes.update({col: np.int32 for col in range(1, 5270)})
 
+@st.cache
 df_chunks = pd.read_csv(url, dtype=col_dtypes, chunksize=1000)
 
 df = pd.concat(df_chunks)
