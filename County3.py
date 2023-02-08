@@ -8,7 +8,7 @@ st.subheader('Choose a city:')
 
 url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distances_Offline.csv'
 
-columnz = st.selectbox("Choose a city", range(1, 5270))
+columnz = st.selectbox("Choose a city", df.columns.drop('County'))
 numby = st.slider('Select a mile radius', 0, 500)
 
 usecols = ['County', str(columnz + 1)]
