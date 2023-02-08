@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 
-@st.cache
 st.set_page_config(page_title='Distance Tool')
 st.header('Counties Within Mile Radius')
 st.subheader('Choose a city:')
