@@ -8,13 +8,15 @@ st.subheader('Choose a city:')
 
 url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distances_Offline.csv'
 
+col_dtypes = {'County': str}
+col_dtypes.update({str(col): np.int32 for col in range(1, 5270)})
+
+df = pd.read_csv(url, dtype=col_dtypes)
 columnz = st.selectbox("Choose a city", df.columns.drop('County'))
 numby = st.slider('Select a mile radius', 0, 500)
 
-usecols = ['County', str(columnz + 1)]
-df = pd.read_csv(url, usecols=usecols, dtype={'County': str, str(columnz + 1): np.int32})
-df = df.loc[df[str(columnz + 1)] <= numby]
-df = df.sort_values(by=[str(columnz + 1)])
+df = df.loc[df[columnz] <= numby]
+df = df.sort_values(by=[columnz])
 df = df.drop_duplicates(subset=['County'], keep='first')
-df = df[['County', str(columnz + 1)]]
+df = df[['County', columnz]]
 df
