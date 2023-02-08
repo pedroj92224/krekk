@@ -21,8 +21,8 @@ for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
         numby = st.slider('Select a mile radius', 0, 500)
 
         df = chunk.loc[chunk[columnz] <= numby]
-        df = df.sort_values(by=[columnz])
-        df = df.drop_duplicates(subset=['County'], keep='first')
-        df = df[['County', columnz]]
-st.write(df)
+        df2 = df.sort_values(by=[columnz])
+        df3 = df2.drop_duplicates(subset=['County'], keep='first')
+        df4 = df3[['County', columnz]]
+st.write(df4)
         
