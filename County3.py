@@ -8,23 +8,17 @@ st.subheader('Choose a city:')
 
 url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distances_Offline.csv'
 
-city_columns = []
-city_names = []
-for chunk in pd.read_csv(url, chunksize=100):
-    city_columns = [col for col in chunk.columns if col != 'County']
-    city_names = [col.replace("_", " ") for col in city_columns]
-    break
+col_dtypes = {'County': str}
+col_dtypes.update({str(col): np.int32 for col in range(1, 5270)})
 
-columnz = st.selectbox("Choose a city", city_names)
-columnz_index = city_columns.index(columnz.replace(" ", "_"))
+city_columns = pd.read_csv(url, nrows=0).columns.drop("County")
+city_names = [col.replace("_", ", ") for col in city_columns]
+selected_city = st.selectbox("Choose a city", city_names)
 numby = st.slider('Select a mile radius', 0, 500)
 
-df_result = pd.DataFrame(columns=['County', columnz])
-for chunk in pd.read_csv(url, usecols=['County', city_columns[columnz_index]], chunksize=100):
-    df = chunk.loc[chunk[city_columns[columnz_index]] <= numby]
-    df = df.sort_values(by=[city_columns[columnz_index]])
-    df = df.drop_duplicates(subset=['County'], keep='first')
-    df = df[['County', city_columns[columnz_index]]]
-    df_result = pd.concat([df_result, df], ignore_index=True)
-
-df_result
+df = pd.read_csv(url, dtype=col_dtypes, usecols=["County", selected_city.replace(", ", "_")], chunksize=1000)
+df = pd.concat([chunk.loc[chunk[selected_city.replace(", ", "_")] <= numby] for chunk in df])
+df = df.sort_values(by=[selected_city.replace(", ", "_")])
+df = df.drop_duplicates(subset=['County'], keep='first')
+df = df[['County', selected_city.replace(", ", "_")]]
+st.write(df)
