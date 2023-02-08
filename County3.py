@@ -24,5 +24,5 @@ for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
         df = df.sort_values(by=[columnz])
         df = df.drop_duplicates(subset=['County'], keep='first')
         df = df[['County', columnz]]
-        st.write(df)
-        break
+st.write(df)
+        
