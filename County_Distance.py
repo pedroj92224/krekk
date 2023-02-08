@@ -27,4 +27,4 @@ df3 = df2.loc[df2[columnz] <= numby]
 df4 = df3.sort_values(by=[columnz])
 df5 = df4.drop_duplicates(subset=['County'], keep='first')
 df6 = pd.DataFrame(df5, columns = ['County', columnz])
-print(df6, index=False) 
+df6 
