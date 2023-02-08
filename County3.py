@@ -13,7 +13,6 @@ col_dtypes.update({str(col): np.int32 for col in range(1, 5270)})
 
 city_columns = None
 
-df_list = []
 for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
     if city_columns is None:
         city_columns = [col for col in chunk.columns if col != 'County']
@@ -22,11 +21,8 @@ for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
         numby = st.slider('Select a mile radius', 0, 500)
 
     df = chunk.loc[chunk[columnz] <= numby]
-    df_list.append(df)
-
-df = pd.concat(df_list)
-df2 = df.sort_values(by=[columnz])
-df3 = df2.drop_duplicates(subset=['County'], keep='first')
-df4 = df3[['County', columnz]]
+    df2 = df.sort_values(by=[columnz])
+    df3 = df2.drop_duplicates(subset=['County'], keep='first')
+    df4 = df3[['County', columnz]]
 
 st.write(df4)
