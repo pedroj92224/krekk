@@ -9,10 +9,6 @@ url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distan
 col_dtypes = {col: str for col in range(0, 1)}
 col_dtypes.update({col: int for col in range(1, 5270)})
 df = pd.read_csv(url, dtype=col_dtypes)
-column_names = df.columns
-for i in range(1, len(column_names)):
-    dtypes[i] = int
-df = pd.read_csv(url, dtype=dict((column_names[i], dtypes[i]) for i in range(len(column_names))))
 dfa = df.loc[ :, df.columns != 'County']
 
 columnz = st.selectbox("Choose a city", dfa.columns)
