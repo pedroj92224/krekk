@@ -9,15 +9,15 @@ st.subheader('Choose a city:')
 url = 'https://media.githubusercontent.com/media/pedroj92224/krekk/master/Distances_Offline.csv'
 
 col_dtypes = {'County': str}
-col_dtypes.update({str(col): np.int32 for col in range(1, 5270)})
+for i in range(1, 5270):
+    col_dtypes[str(i)] = np.int32
 
 city_columns = None
 city_names = None
 
 def load_data(city_name, numby):
     chunk = pd.read_csv(url, chunksize=500, dtype=col_dtypes, usecols=['County', city_name])
-    df = pd.DataFrame(chunk)
-    df = df.loc[df[city_name] <= numby]
+    df = chunk.loc[chunk[city_name] <= numby]
     df = df.sort_values(by=[city_name])
     df = df.drop_duplicates(subset=['County'], keep='first')
     df = df[['County', city_name]]
