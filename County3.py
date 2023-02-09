@@ -28,3 +28,4 @@ for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=100):
     df_list.append(df)
 
 result = pd.concat(df_list)
+st.write(result)
