@@ -16,7 +16,7 @@ city_names = None
 
 @st.cache
 def load_data(city_name, numby):
-    chunk = pd.read_csv(url, dtype=col_dtypes, usecols=['County', city_name])
+    chunk = pd.read_csv(url, chunksize=1000, dtype=col_dtypes, usecols=['County', city_name])
     df = chunk.loc[chunk[city_name] <= numby]
     df = df.sort_values(by=[city_name])
     df = df.drop_duplicates(subset=['County'], keep='first')
