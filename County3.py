@@ -26,4 +26,5 @@ for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=100):
     df = df.drop_duplicates(subset=['County'], keep='first')
     df = df[['County', columnz]]
     df_list.append(df)
-final_df = pd.concat(df_list)
+
+result = pd.concat(df_list)
