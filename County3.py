@@ -20,9 +20,9 @@ for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
         city_names = [col.replace("_", " ") for col in city_columns]
         columnz = st.selectbox("Choose a city", city_names)
         number = st.number_input('Insert a number')
-        numby = int(number)
+        
 
-    df = chunk.loc[chunk[columnz] <= numby]
+    df = chunk.loc[chunk[columnz] <= number]
     df = df.sort_values(by=[columnz])
     df = df.drop_duplicates(subset=['County'], keep='first')
     df = df[['County', columnz]]
