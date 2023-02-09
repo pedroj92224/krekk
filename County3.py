@@ -19,7 +19,8 @@ for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
         city_columns = [col for col in chunk.columns if col != 'County']
         city_names = [col.replace("_", " ") for col in city_columns]
         columnz = st.selectbox("Choose a city", city_names)
-        numby = st.slider('Select a mile radius', 0, 500)
+        number = st.number_input('Insert a number')
+        numby = int(number)
 
     df = chunk.loc[chunk[columnz] <= numby]
     df = df.sort_values(by=[columnz])
