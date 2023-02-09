@@ -14,6 +14,7 @@ col_dtypes.update({str(col): np.int32 for col in range(1, 5270)})
 city_columns = None
 city_names = None
 
+@st.cache
 def load_data(city_name, numby):
     chunk = pd.read_csv(url, dtype=col_dtypes, usecols=['County', city_name])
     df = chunk.loc[chunk[city_name] <= numby]
