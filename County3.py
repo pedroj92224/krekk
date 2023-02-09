@@ -19,7 +19,7 @@ for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
         city_columns = [col for col in chunk.columns if col != 'County']
         city_names = [col.replace("_", " ") for col in city_columns]
         columnz = st.selectbox("Choose a city", city_names)
-        numby = st.number_input('Insert a number', value=int)
+        numby = st.slider('Select a number', 0, 500, step=1, format='%d')
         
 
     df = chunk.loc[chunk[columnz] <= numby]
