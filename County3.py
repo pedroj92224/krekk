@@ -20,8 +20,8 @@ for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
         columnz = st.selectbox("Choose a city", city_names)
         numby = st.slider('Select a mile radius', 0, 500)
 
-        df = chunk.loc[chunk[columnz] <= numby]
-        df = df.sort_values(by=[columnz])
-        df = df.drop_duplicates(subset=['County'], keep='first')
-        df = df[['County', columnz]]
-        st.write(df)
+    df = chunk.loc[chunk[columnz] <= numby]
+    df = df.sort_values(by=[columnz])
+    df = df.drop_duplicates(subset=['County'], keep='first')
+    df = df[['County', columnz]]
+    st.write(df)
