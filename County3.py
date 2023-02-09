@@ -12,22 +12,17 @@ col_dtypes = {'County': str}
 col_dtypes.update({str(col): np.int32 for col in range(1, 5270)})
 
 city_columns = None
-df_all = pd.DataFrame()
-
-columnz = st.selectbox("Choose a city", [])
-numby = st.slider('Select a mile radius', 0, 500)
 
 for chunk in pd.read_csv(url, dtype=col_dtypes, chunksize=1000):
     if city_columns is None:
         city_columns = [col for col in chunk.columns if col != 'County']
         city_names = [col.replace("_", " ") for col in city_columns]
-        columnz.options = city_names
-        
-    if columnz:
-        df = chunk.loc[chunk[columnz] <= numby]
-        df = df.sort_values(by=[columnz])
-        df = df.drop_duplicates(subset=['County'], keep='first')
-        df = df[['County', columnz]]
-        df_all = pd.concat([df_all, df])
 
-st.write(df_all)
+columnz = st.selectbox("Choose a city", city_names)
+numby = st.slider('Select a mile radius', 0, 500)
+
+df = chunk.loc[chunk[columnz] <= numby]
+df = df.sort_values(by=[columnz])
+df = df.drop_duplicates(subset=['County'], keep='first')
+df = df[['County', columnz]]
+st.write(df)
